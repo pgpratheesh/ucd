@@ -1,0 +1,15 @@
+---
+- name: backup asp files
+  include: back.yml
+  
+- name: sync the contents of navsuite
+  win_robocopy:
+    src: C:\ssb_applications\uat\nvs\NavSuite\wwwroot
+    dest: C:\webapp\NAVSuite\NAVSuite
+    recurse: yes
+    purge: yes
+  register: adm_result
+  
+- debug:
+    msg:
+      - "admin sync {{ adm_result.output.5 }}"
