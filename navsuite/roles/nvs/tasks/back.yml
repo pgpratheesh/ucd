@@ -1,0 +1,13 @@
+---
+- set_fact: 
+    Nav="NavSuite.{{ ansible_date_time.iso8601_basic }}.zip"
+    ANav="AdminNavSuite.{{ ansible_date_time.iso8601_basic }}.zip"
+
+- name: Saving backup to remote location
+  win_shell: | 
+    Add-Type -Assembly "System.IO.Compression.FileSystem" ; [System.IO.Compression.ZipFile]::CreateFromDirectory("C:\ssb_applications\uat\nvs\NavSuite\wwwroot","C:\{{ Nav }}")
+    Add-Type -Assembly "System.IO.Compression.FileSystem" ; [System.IO.Compression.ZipFile]::CreateFromDirectory("C:\ssb_applications\uat\nvs\AdminNavsuit\wwwroot","C:\{{ ANav }}")
+
+- win_shell:
+    Move-Item -Path "C:\{{ Nav }}"  -Destination C:\Users;
+    Move-Item -Path "C:\{{ ANav }}"  -Destination C:\Users;

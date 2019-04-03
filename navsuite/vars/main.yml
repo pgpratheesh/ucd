@@ -1,0 +1,4 @@
+---
+# vars file for navsuite
+cli_app_name: ""
+suite: ["AdminSuite","NavSuite"]

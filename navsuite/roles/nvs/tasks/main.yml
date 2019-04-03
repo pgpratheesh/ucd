@@ -1,0 +1,11 @@
+---
+  
+- debug: msg={{ ansible_os_family }}
+    
+- name: include os specific common tasks
+  include: iis.yml
+  when: ansible_os_family == "Windows"
+  
+- fail:
+    msg: "Target server is not  windows"
+  when: ansible_os_family != "Windows"

@@ -1,0 +1,6 @@
+---
+- hosts: dev_nvs
+  
+  roles:
+    - {role: nvs, when: cli_app_name == "navsuite" }
+

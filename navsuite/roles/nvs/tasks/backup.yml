@@ -1,0 +1,39 @@
+---
+
+# - name: create a mapped drive under Z
+  # win_mapped_drive:
+    # letter: Z
+    # path: \\172.31.43.251\backup
+    # username: 172.31.43.251\Administrator
+    # password: tzgp?TyCt69
+    
+# - name: create backup location
+  # win_file:
+    # path: Z:\{{ ansible_date_time.year }}\{{ env }}\test
+    # state: directory
+    # remote_src: True
+    
+# #- name: backup navsuite ASP files
+
+- name: Saving backup to remote location
+  #win_shell: Copy-Item -Path {{ NAVSuite }}  -Destination \\172.31.43.251\backup\{{ NAVSuite }} ;
+  
+  win_shell: |
+    $FileName = "NavSuite." + (Get-Date).tostring(“dd-MM-yyyy-hh-mm”) + ".zip"
+    Add-Type -Assembly "System.IO.Compression.FileSystem" ; [System.IO.Compression.ZipFile]::CreateFromDirectory("C:\ssb_applications\uat\nvs\NavSuite\wwwroot","C:\$FileName")
+  register: zip_result
+
+- debug: msg={{ zip_result }}
+
+
+
+
+#   Move-Item -Path C:\pg -Destination C:\Users ;
+   # $FileName = "NavSuite." + (Get-Date).tostring(“dd-MM-yyyy”) + ".zip" 
+   # Move-Item -Path C:\ConfigureRemotingForAnsible.ps1.txt  -Destination C:\Users;
+     #$FileName = "NavSuite." + (Get-Date).tostring(“dd-MM-yyyy”) + ".zip"
+     #Add-Type -Assembly "System.IO.Compression.FileSystem" ; [System.IO.Compression.ZipFile]::CreateFromDirectory("C:\ssb_applications\uat\nvs\NavSuite\wwwroot","C:\$FileName")
+     #Move-Item -Path C:\$FileName  -Destination C:\Users;
+  
+#  Move-Item -Path "Contacts100483" -Destination "\\172.31.43.251\backup\Contacts100483"
+
